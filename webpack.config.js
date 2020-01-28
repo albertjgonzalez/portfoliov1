@@ -37,104 +37,93 @@ module.exports = function (env) {
              *  就需要一个预处理器来告诉 webpack 该如何处理这个文件，比如 css、图片等
              *  https://webpack.js.org/concepts/loaders/
              */
-            
-            // loaders: [
-            //     /**
-            //      * eslint-loader
-            //      * 在构建之前，自动进行 eslint 检查
-            //      * 这里的配置设定为，如果有 error，那么就不能继续构建
-            //      * https://github.com/MoOx/eslint-loader
-            //      */
-
-            //     {
-            //         enforce: "pre",
-            //         test: /\.js$/,
-            //         include: path.resolve(__dirname, 'src'),
-            //         loader: "eslint-loader",
-            //         options: {
-            //             failOnError: true,
-            //             fix: true
-            //         }
-            //     },
-            //     /**
-            //      * babel-loader
-            //      * 将 es6 转化为 es5
-            //      * https://github.com/babel/babel-loader
-            //      */
-            //     {
-            //         test: /\.(js|jsx)$/,
-            //         include: path.resolve(__dirname, 'src'),
-            //         loader: 'babel-loader',
-            //         query: {
-            //             babelrc: false,
-            //             presets: [require.resolve('babel-preset-react-app')],
-            //         },
-            //     },
-            //     /**
-            //      * css-loader & style-loader
-            //      *  用来处理代码中 import './style.css' 的情况
-            //      *  如果是开发环境，那么作为 style 标签插入到 html 中
-            //      *  如果是正式环境，那么生成单独的文件，作为 link 插入的 html 中
-            //      *  https://github.com/webpack-contrib/css-loader
-            //      *  https://github.com/webpack-contrib/style-loader
-            //      */
-            //     {
-            //         test: /\.css$/,
-            //         loader: isProduction ?
-            //             ExtractTextPlugin.extract({ fallback: 'style-loader', use: [
-            //                 {
-            //                     loader: require.resolve('css-loader')
-            //                 },
-            //                 {
-            //                     loader: require.resolve('postcss-loader'),
-            //                     options: {
-            //                         plugins: () => [
-            //                             require('postcss-flexbugs-fixes'),
-            //                             autoprefixer({
-            //                                 browsers: [
-            //                                     '>1%',
-            //                                     'last 4 versions',
-            //                                     'Firefox ESR',
-            //                                     'not ie < 9',
-            //                                 ],
-            //                                 flexbox: 'no-2009',
-            //                             }),
-            //                         ],
-            //                     },
-            //                 }
-            //             ] }) :
-            //             [ 'style-loader', 'css-loader', ]
-            //     },
-            //     /**
-            //      * json-loader
-            //      * https://github.com/webpack-contrib/json-loader
-            //      */
-            //     {
-            //         test: /\.json$/,
-            //         loader: 'json-loader'
-            //     },
-            //     // "file" loader for svg
-            //     // https://github.com/webpack-contrib/file-loader
-            //     {
-            //         test: /\.svg$/,
-            //         loader: 'file-loader',
-            //         query: {
-            //             name: 'static/media/[name].[hash:8].[ext]'
-            //         }
-            //     },
-                
-                
-            // ],
-            loaders: [{
-                test: /.jsx?$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
-              }, {
-                test: /\.css$/,
-                loader: "style-loader!css-loader"
-              }, {
-                test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
-                loader: 'url-loader?limit=100000' }]
+            loaders: [
+                /**
+                 * eslint-loader
+                 * 在构建之前，自动进行 eslint 检查
+                 * 这里的配置设定为，如果有 error，那么就不能继续构建
+                 * https://github.com/MoOx/eslint-loader
+                 */
+                {
+                    enforce: "pre",
+                    test: /\.js$/,
+                    include: path.resolve(__dirname, 'src'),
+                    loader: "eslint-loader",
+                    options: {
+                        failOnError: true,
+                        fix: true
+                    }
+                },
+                /**
+                 * babel-loader
+                 * 将 es6 转化为 es5
+                 * https://github.com/babel/babel-loader
+                 */
+                {
+                    test: /\.(js|jsx)$/,
+                    include: path.resolve(__dirname, 'src'),
+                    loader: 'babel-loader',
+                    query: {
+                        babelrc: false,
+                        presets: [require.resolve('babel-preset-react-app')],
+                    },
+                },
+                /**
+                 * css-loader & style-loader
+                 *  用来处理代码中 import './style.css' 的情况
+                 *  如果是开发环境，那么作为 style 标签插入到 html 中
+                 *  如果是正式环境，那么生成单独的文件，作为 link 插入的 html 中
+                 *  https://github.com/webpack-contrib/css-loader
+                 *  https://github.com/webpack-contrib/style-loader
+                 */
+                {
+                    test: /\.css$/,
+                    loader: isProduction ?
+                        ExtractTextPlugin.extract({ fallback: 'style-loader', use: [
+                            {
+                                loader: require.resolve('css-loader')
+                            },
+                            {
+                                loader: require.resolve('postcss-loader'),
+                                options: {
+                                    plugins: () => [
+                                        require('postcss-flexbugs-fixes'),
+                                        autoprefixer({
+                                            browsers: [
+                                                '>1%',
+                                                'last 4 versions',
+                                                'Firefox ESR',
+                                                'not ie < 9',
+                                            ],
+                                            flexbox: 'no-2009',
+                                        }),
+                                    ],
+                                },
+                            }
+                        ] }) :
+                        [ 'style-loader', 'css-loader', ]
+                },
+                /**
+                 * json-loader
+                 * https://github.com/webpack-contrib/json-loader
+                 */
+                {
+                    test: /\.json$/,
+                    loader: 'json-loader'
+                },
+                // "file" loader for svg
+                // https://github.com/webpack-contrib/file-loader
+                {
+                    test: /\.svg$/,
+                    loader: 'file-loader',
+                    query: {
+                        name: 'static/media/[name].[hash:8].[ext]'
+                    }
+                },
+                {
+                    test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+                    loader: 'url-loader?limit=100000' }
+            ]
         },
         /**
          * plugin 是 webpack 完成各种复杂功能的核心
